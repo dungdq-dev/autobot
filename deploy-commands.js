@@ -4,9 +4,9 @@ const fs = require("node:fs");
 const path = require("node:path");
 const dotenv = require("dotenv");
 
+// Load environment variables from a.env file
 dotenv.config();
 
-// Load environment variables from a.env file
 const token = process.env.DISCORD_TOKEN;
 const clientId = process.env.CLIENT_ID;
 const guildId = process.env.GUILD_ID;

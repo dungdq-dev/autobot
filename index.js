@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const dotenv = require("dotenv");
 // Require the necessary discord.js classes
-const { Client, Collection, Events, MessageFlags, GatewayIntentBits } = require("discord.js");
+const { Client, Collection, Events, GatewayIntentBits } = require("discord.js");
 const { getQuote } = require("./common/quotes.js");
 
 // Load environment variables from a.env file
@@ -22,10 +22,10 @@ const client = new Client({
 // Create a new collection to store commands
 client.commands = new Collection();
 
+// Load command files from each subfolder in the commands directory
 const foldersPath = path.join(__dirname, "commands");
 const commandFolders = fs.readdirSync(foldersPath);
 
-// Load command files from each subfolder in the commands directory
 for (const folder of commandFolders) {
   const commandsPath = path.join(foldersPath, folder);
   const commandFiles = fs
@@ -60,35 +60,6 @@ for (const file of eventFiles) {
     client.on(event.name, (...args) => event.execute(...args));
   }
 }
-
-// Event listener for message events
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
-
-  const command = interaction.client.commands.get(interaction.commandName);
-
-  if (!command) {
-    console.error(`No command matching ${interaction.commandName} was found.`);
-    return;
-  }
-
-  try {
-    await command.execute(interaction);
-  } catch (error) {
-    console.error(error);
-    if (interaction.replied || interaction.deferred) {
-      await interaction.followUp({
-        content: "There was an error while executing this command!",
-        flags: MessageFlags.Ephemeral,
-      });
-    } else {
-      await interaction.reply({
-        content: "There was an error while executing this command!",
-        flags: MessageFlags.Ephemeral,
-      });
-    }
-  }
-});
 
 // Listen for messages that start with "$inspire" and respond with a random quote
 client.on(Events.MessageCreate, async (msg) => {

@@ -1,5 +1,6 @@
 const { Events, MessageFlags } = require("discord.js");
 
+// Event listener for message events
 module.exports = {
   name: Events.InteractionCreate,
   async execute(interaction) {
