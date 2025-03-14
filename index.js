@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const dotenv = require("dotenv");
 // Require the necessary discord.js classes
-const { Client, Collection, Events, GatewayIntentBits } = require("discord.js");
+const { Client, Collection, Events, MessageFlags, GatewayIntentBits } = require("discord.js");
 const { getQuote } = require("./common/quotes.js");
 
 // Load environment variables from a.env file
